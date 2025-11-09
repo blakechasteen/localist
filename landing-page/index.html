@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Localist - Discover Local Businesses Near You</title>
+    <meta name="description" content="Support local artisans and small businesses in your community. Map-based discovery, verified reviews, truly local.">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+            min-height: 600px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero .tagline {
+            font-size: 1.5rem;
+            margin-bottom: 40px;
+            opacity: 0.95;
+            max-width: 700px;
+        }
+
+        .hero .cta {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Email Signup Form */
+        .email-signup {
+            background: white;
+            border-radius: 12px;
+            padding: 10px;
+            display: flex;
+            gap: 10px;
+            max-width: 500px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        .email-signup input {
+            flex: 1;
+            padding: 16px 20px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .email-signup input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .email-signup button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+            white-space: nowrap;
+        }
+
+        .email-signup button:hover {
+            background: #5568d3;
+        }
+
+        .launch-city {
+            margin-top: 20px;
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 80px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .features h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 60px;
+            color: #2d3748;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #2d3748;
+        }
+
+        .feature-card p {
+            color: #4a5568;
+            line-height: 1.7;
+        }
+
+        /* Mission Section */
+        .mission {
+            background: #f7fafc;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .mission-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .mission h2 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            color: #2d3748;
+        }
+
+        .mission p {
+            font-size: 1.2rem;
+            color: #4a5568;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .mission .quote {
+            font-size: 1.4rem;
+            font-style: italic;
+            color: #667eea;
+            margin: 40px 0;
+            font-weight: 500;
+        }
+
+        /* Stats Section */
+        .stats {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 20px;
+        }
+
+        .stats-grid {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            text-align: center;
+        }
+
+        .stat-item h3 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .stat-item p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Footer */
+        footer {
+            background: #2d3748;
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        footer p {
+            opacity: 0.8;
+        }
+
+        /* Success Message */
+        .success-message {
+            display: none;
+            background: #48bb78;
+            color: white;
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .success-message.show {
+            display: block;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero .tagline {
+                font-size: 1.2rem;
+            }
+
+            .email-signup {
+                flex-direction: column;
+            }
+
+            .features h2,
+            .mission h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Discover Local.<br>Support Small.</h1>
+        <p class="tagline">
+            The map-based platform connecting you to artisans and small businesses in your community.
+            No chains. No franchises. Just authentic local makers.
+        </p>
+
+        <div class="cta">
+            <form class="email-signup" id="signup-form" onsubmit="handleSignup(event)">
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Enter your email"
+                    required
+                    autocomplete="email"
+                />
+                <button type="submit">Join Waitlist</button>
+            </form>
+        </div>
+
+        <div id="success-msg" class="success-message">
+            ✅ Thanks! We'll let you know when Localist launches in your city.
+        </div>
+
+        <p class="launch-city">Launching first in Asheville, NC • Spring 2026</p>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <h2>Why Localist?</h2>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🗺️</div>
+                <h3>Map-Based Discovery</h3>
+                <p>Explore local businesses as you move around your city. Discover hidden gems right in your neighborhood.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">✅</div>
+                <h3>Verified Reviews Only</h3>
+                <p>No fake reviews. Only confirmed purchasers can leave reviews, so you can trust every rating.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🏪</div>
+                <h3>Local-Only</h3>
+                <p>No chains. No franchises. Every business is verified as an authentic small business or artisan.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🧠</div>
+                <h3>Smart Recommendations</h3>
+                <p>AI-powered suggestions learn what you love and help you discover businesses you'll actually enjoy.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">💬</div>
+                <h3>Direct Messaging</h3>
+                <p>Ask questions, schedule visits, and build relationships with local makers before you buy.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">📢</div>
+                <h3>Weekly Updates</h3>
+                <p>See what's new from your favorite businesses. Fresh specials, events, and seasonal items.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission Section -->
+    <section class="mission">
+        <div class="mission-content">
+            <h2>Our Mission</h2>
+            <p>
+                Every dollar spent on Localist is a dollar that stays in your community.
+                We're building the antidote to Amazon and Walmart—a platform where
+                small businesses can compete on quality, not advertising budgets.
+            </p>
+
+            <p class="quote">
+                "Great communities are built on great local businesses."
+            </p>
+
+            <p>
+                When you support a local coffee roaster, you're not just buying coffee—you're
+                supporting a neighbor, creating local jobs, and preserving what makes your city unique.
+            </p>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <h3>$500B</h3>
+                <p>Local commerce market</p>
+            </div>
+            <div class="stat-item">
+                <h3>0%</h3>
+                <p>Franchises allowed</p>
+            </div>
+            <div class="stat-item">
+                <h3>100%</h3>
+                <p>Small businesses only</p>
+            </div>
+            <div class="stat-item">
+                <h3>🎯</h3>
+                <p>Community-first</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Localist. Building the future of local commerce.</p>
+        <p style="margin-top: 10px; font-size: 0.9rem;">
+            Questions? <a href="mailto:hello@localist.app" style="color: #667eea;">hello@localist.app</a>
+        </p>
+    </footer>
+
+    <script>
+        // Handle email signup
+        function handleSignup(event) {
+            event.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const successMsg = document.getElementById('success-msg');
+            const form = document.getElementById('signup-form');
+
+            // For MVP, just log to console and show success message
+            // In production, this would POST to /api/waitlist
+            console.log('Waitlist signup:', email);
+
+            // Store in localStorage (for MVP)
+            let waitlist = JSON.parse(localStorage.getItem('localist_waitlist') || '[]');
+            waitlist.push({
+                email: email,
+                timestamp: new Date().toISOString(),
+                referrer: document.referrer
+            });
+            localStorage.setItem('localist_waitlist', JSON.stringify(waitlist));
+
+            // TODO: Send to backend API
+            // fetch('/api/waitlist', {
+            //     method: 'POST',
+            //     headers: { 'Content-Type': 'application/json' },
+            //     body: JSON.stringify({ email: email })
+            // });
+
+            // Show success message
+            successMsg.classList.add('show');
+            form.reset();
+
+            // Hide success message after 5 seconds
+            setTimeout(() => {
+                successMsg.classList.remove('show');
+            }, 5000);
+        }
+
+        // Track page view (for analytics)
+        console.log('Localist landing page loaded');
+        console.log('Page loaded at:', new Date().toISOString());
+
+        // Optional: Google Analytics or Mixpanel tracking
+        // gtag('event', 'page_view', { page_path: '/' });
+    </script>
+</body>
+</html>
