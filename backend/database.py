@@ -46,6 +46,15 @@ class User(Base):
     created_at = Column(TIMESTAMP, default=datetime.utcnow)
     last_login = Column(TIMESTAMP)
 
+    # Push notifications
+    expo_push_token = Column(String(100))  # ExponentPushToken[...] format
+
+    # Notification preferences (default all True)
+    notifications_messages = Column(Boolean, default=True)
+    notifications_bulletins = Column(Boolean, default=True)
+    notifications_recommendations = Column(Boolean, default=True)
+    notifications_reviews = Column(Boolean, default=True)
+
     # Relationships
     reviews = relationship("Review", back_populates="user")
     messages = relationship("Message", back_populates="user")
