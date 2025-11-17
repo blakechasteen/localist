@@ -23,6 +23,18 @@ pydantic-settings==2.1.0
 # HTTP clients
 httpx==0.25.2
 requests==2.31.0
+aiohttp==3.9.1  # For Expo Push API
+
+# WebSocket support (included with uvicorn[standard] but explicit for clarity)
+websockets==12.0
+
+# Image processing (for Cloudflare R2 uploads)
+Pillow==10.1.0
+boto3==1.29.7  # S3-compatible API for Cloudflare R2
+
+# Machine Learning (for Thompson Sampling recommendations)
+numpy==1.26.2
+scipy==1.11.4
 
 # HoloLoom (from mythRL repository)
 # Note: Install HoloLoom dependencies separately from mythRL/requirements.txt
