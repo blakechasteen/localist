@@ -7,9 +7,10 @@ Author: Blake Chasteen
 Date: November 8, 2025
 """
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, WebSocket, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
+from sqlalchemy.orm import Session
 import sys
 from pathlib import Path
 
@@ -21,6 +22,13 @@ if HOLOLOOM_PATH.exists():
 from HoloLoom import HoloLoom
 from HoloLoom.config import Config
 
+# Import Localist modules
+from backend.database import get_db, init_db
+from backend.api.auth_routes import router as auth_router
+from backend.api.notification_routes import router as notification_router
+from backend.websocket import websocket_endpoint
+from backend.notifications import cleanup_notification_service
+
 # Global state
 app_state = {}
 
@@ -30,12 +38,22 @@ async def lifespan(app: FastAPI):
     """
     Application lifespan manager.
 
-    Initializes HoloLoom on startup and cleans up on shutdown.
+    Initializes HoloLoom and database on startup, cleans up on shutdown.
     """
-    # Startup: Initialize HoloLoom
+    # Startup: Initialize database and HoloLoom
     print("🚀 Starting Localist API...")
-    print("🧠 Initializing HoloLoom AI...")
 
+    # Initialize database
+    print("🗄️  Initializing database...")
+    try:
+        init_db()
+        print("✅ Database ready!")
+    except Exception as e:
+        print(f"⚠️  Database initialization warning: {e}")
+        print("   Continuing with existing database schema...")
+
+    # Initialize HoloLoom AI
+    print("🧠 Initializing HoloLoom AI...")
     config = Config.fast()  # Use FAST mode for good balance
     loom = HoloLoom(config=config)
     await loom.__aenter__()
@@ -49,11 +67,17 @@ async def lifespan(app: FastAPI):
     print("✅ HoloLoom ready!")
     print("✅ Localist API running on http://localhost:8000")
     print("📖 API docs: http://localhost:8000/docs")
+    print("📡 WebSocket: ws://localhost:8000/ws/messages")
 
     yield
 
     # Shutdown: Cleanup
     print("🛑 Shutting down Localist API...")
+
+    # Cleanup notification service
+    await cleanup_notification_service()
+
+    # Cleanup HoloLoom
     await loom.__aexit__(None, None, None)
     print("✅ Cleanup complete")
 
@@ -131,6 +155,28 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Include API routers
+app.include_router(auth_router)
+app.include_router(notification_router)
+
+
+# ============================================================================
+# WebSocket Endpoints
+# ============================================================================
+
+@app.websocket("/ws/messages")
+async def websocket_messages_endpoint(
+    websocket: WebSocket,
+    token: str,
+    db: Session = Depends(get_db)
+):
+    """
+    WebSocket endpoint for real-time messaging.
+
+    Connect: ws://localhost:8000/ws/messages?token=<access_token>
+    """
+    await websocket_endpoint(websocket, token, db)
 
 
 # ============================================================================
